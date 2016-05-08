@@ -7,7 +7,7 @@ public class Paciente {
 	private String rg;
 	private String estadoCivil;
 	private String telefone;
-	private String cor;
+	private char sexo;
 	private String profissao;
 	private String cep;
 	private String dataNascimento;
@@ -65,14 +65,6 @@ public class Paciente {
 		this.estadoCivil = estadoCivil;
 	}
 
-	public String getCor() {
-		return cor;
-	}
-
-	public void setCor(String cor) {
-		this.cor = cor;
-	}
-
 	public String getProfissao() {
 		return profissao;
 	}
@@ -95,6 +87,14 @@ public class Paciente {
 
 	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+
+	public char getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(char sexo) {
+		this.sexo = sexo;
 	}
 	
 }

@@ -5,6 +5,7 @@ public class Endereco {
 	private String rua;
 	private String cidade;
 	private String pais;
+	private String estado;
 	private String bairro;
 	private int numeroCasa;
 	
@@ -50,6 +51,14 @@ public class Endereco {
 
 	public void setNumeroCasa(int numeroCasa) {
 		this.numeroCasa = numeroCasa;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
 	
 
