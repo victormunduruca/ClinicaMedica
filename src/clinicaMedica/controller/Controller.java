@@ -40,8 +40,10 @@ public class Controller {
 			String txtSalvar = paciente.toString() + paciente.getEndereco().toString();
 			txtSalvar = txtSalvar.replaceAll("\n", System.lineSeparator()); //deixa o texto do txt legivel
 			bw.write(txtSalvar); // salva as informações em txt
-			bw.close();
+			bw.write(System.lineSeparator());
 		}
+		bw.close();
+
 		
 	}
 
