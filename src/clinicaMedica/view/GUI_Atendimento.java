@@ -1,39 +1,74 @@
 package clinicaMedica.view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import clinicaMedica.model.Atendimento;
+
+import clinicaMedica.controller.Controller;
 import clinicaMedica.model.Endereco;
 import clinicaMedica.model.Paciente;
 
 public class GUI_Atendimento {
-
-	private JPanel painel;
 	
+	private Controller controller;
+	private JPanel painel;
+	private JTextField nome;
+	private JTextField dataNascimento;
+	private JTextField cpf;
+	private JTextField rg;
+	private JTextField telefone;
+	private JTextField profissao;
+	private JTextField cep;
+	private JTextField pais;
+	private JTextField estado;
+	private JTextField cidade;		
+	private JTextField bairro;
+	private JTextField rua;
+	private JTextField numeroCasa;
+
 	public GUI_Atendimento(){
+		nome = new JTextField();
+		dataNascimento = new JTextField();
+		cpf = new JTextField();
+		rg = new JTextField();
+		painel = new JPanel();
+		telefone = new JTextField();
+		profissao = new JTextField();
+		cep = new JTextField();
+		pais = new JTextField();
+		cidade = new JTextField();
+		estado = new JTextField();
+		bairro = new JTextField();
+		rua = new JTextField();
+		numeroCasa = new JTextField();
+		
+		controller = new Controller();
 		painel = new JPanel();
 		painel.setLayout(null);
 		painel.setBackground(Color.WHITE);
 	}
-	
-	public void atendimento(){
-		JLabel titulo = new JLabel("Cadastro de Atendimento");
+
+	public void paciente(){
+		JLabel titulo = new JLabel("Cadastro de Paciente ");
 		titulo.setBounds(230, 10, 200, 30);
 		Font font = new Font("Arial", Font.BOLD, 16);
 		titulo.setFont(font);
-		
+
 		JButton cadastrar = new JButton("Cadastrar");
 		JButton limpar = new JButton("Limpar");
 		JButton cancelar = new JButton("Cancelar");
 		JButton visualizar = new JButton("Visualizar");
-		
+
 		/*Dimensiono os botões e posição*/
 		cadastrar.setBounds(120, 470, 100, 30);
 		limpar.setBounds(230, 470, 100, 30);
@@ -45,40 +80,12 @@ public class GUI_Atendimento {
 		painel.add(cancelar);
 		painel.add(limpar);
 		painel.add(visualizar);
-		
-		JLabel l1 = new JLabel("Nome do Médico");
-		l1.setBounds(300, 60, 100, 20);
-		JLabel l2 = new JLabel("Especialidade");
-		l2.setBounds(300, 90, 80, 20);
-		JLabel l3 = new JLabel("Data atual");
-		l3.setBounds(300, 120, 80, 20);
-		JLabel l4 = new JLabel("Valor");
-		l4.setBounds(300, 150, 50, 20);
 
-		JTextField nome = new JTextField();
-		nome.setBounds(400, 60, 150, 25);
-		JTextField area = new JTextField();
-		area.setBounds(400, 90, 150, 25);
-		JTextField data = new JTextField();
-		data.setBounds(400, 120, 150, 25);
-		JTextField valor = new JTextField();
-		valor.setBounds(400, 150, 150, 25);
-		
-		painel.add(l1);
-		painel.add(l2);
-		painel.add(l3);
-		painel.add(l4);
-		painel.add(nome);
-		painel.add(area);
-		painel.add(data);
-		painel.add(valor);	
-		
-		Paciente paciente = paciente();
-		Endereco end = endereco();
-		Atendimento atendimento = new Atendimento();
-		atendimento.setPaciente(paciente);
-		atendimento.setNomeMedico(nome.getText());
-				
+
+		preparaPaciente();
+		preparaEndereco();
+
+
 		JFrame novaJanela = new JFrame("Cadastro");
 		novaJanela.setSize(640, 550);
 		novaJanela.setLocationRelativeTo(null);
@@ -86,15 +93,74 @@ public class GUI_Atendimento {
 		novaJanela.add(painel);
 		novaJanela.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		novaJanela.setVisible(true);
+
+
+		cadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Paciente paciente = new Paciente();
+					
+					paciente.setNome(nome.getText());
+					System.out.println("Nome: " +nome.getText());
+					paciente.setCep(cep.getText());
+					paciente.setCpf(cpf.getText());
+					paciente.setDataNascimento(dataNascimento.getText());
+					paciente.setProfissao(profissao.getText());
+					paciente.setRg(rg.getText());
+					paciente.setTelefone(telefone.getText());
+					
+					Endereco end = new Endereco();
+					
+					end.setPais(pais.getText());
+					end.setEstado(estado.getText());
+					end.setCidade(cidade.getText());
+					end.setBairro(bairro.getText());
+					end.setRua(rua.getText());
+					
+					paciente.setEndereco(end);
+					
+					controller.cadastrar(paciente);
+					controller.escreverArquivo();
+					JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso!");
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Desculpe, um erro aconteceu");
+					e1.printStackTrace();
+				}
+			}
+		}	);
 		
-		ManusearBotoesSecundarios manusearBotao = new ManusearBotoesSecundarios(cadastrar, cancelar, limpar, visualizar, atendimento, novaJanela, painel);
-		cadastrar.addActionListener(manusearBotao);
-		limpar.addActionListener(manusearBotao);
-		cancelar.addActionListener(manusearBotao);
-		visualizar.addActionListener(manusearBotao);
+		limpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Component[] componentes = painel.getComponents();
+				for(int i = 0; i < componentes.length; i++){
+					if(componentes[i] instanceof JTextField){
+						JTextField text = (JTextField) componentes[i];
+						text.setText(null);
+					}
+				}
+			}
+		}	);
+		
+		cancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				novaJanela.dispose();
+			}
+		}	);
+		
+		visualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+					String cpfBusca = JOptionPane.showInputDialog("Digite o nome do usuario que deseja visualizar");
+					Paciente pacienteEncontrado = controller.visualizar(cpfBusca);
+					JOptionPane.showMessageDialog(null, pacienteEncontrado.toString() + pacienteEncontrado.getEndereco().toString());
+			}
+		}	); 
+		
+
 	}
+	
+	public void preparaPaciente(){
 		
-	public Paciente paciente(){
 		JLabel l1 = new JLabel("Nome do Paciente");
 		l1.setBounds(10, 60, 120, 20);
 		JLabel l2 = new JLabel("Data de Nascimento");
@@ -109,22 +175,15 @@ public class GUI_Atendimento {
 		l6.setBounds(10, 210, 120, 20);
 		JLabel l7 = new JLabel("CEP");
 		l7.setBounds(10, 240, 120, 20);
-		
-		JTextField nome = new JTextField();
+
 		nome.setBounds(130, 60, 150, 25);
-		JTextField dataNascimento = new JTextField();
 		dataNascimento.setBounds(130, 90, 150, 25);
-		JTextField cpf = new JTextField();
 		cpf.setBounds(130, 120, 150, 25);
-		JTextField rg = new JTextField();
 		rg.setBounds(130, 150, 150, 25);
-		JTextField telefone = new JTextField();
 		telefone.setBounds(130, 180, 150, 25);
-		JTextField profissao = new JTextField();
 		profissao.setBounds(130, 210, 150, 25);
-		JTextField cep = new JTextField();
 		cep.setBounds(130, 240, 150, 25);
-		
+
 		painel.add(l1);
 		painel.add(l2);
 		painel.add(l3);
@@ -139,13 +198,19 @@ public class GUI_Atendimento {
 		painel.add(telefone);
 		painel.add(profissao);
 		painel.add(cep);
-		
+
 		Paciente paciente = new Paciente();
 		paciente.setNome(nome.getText());
-		return paciente;
+		
 	}
 	
-	public Endereco endereco(){
+
+
+
+
+
+
+	public void preparaEndereco(){
 		JLabel l8 = new JLabel("País");
 		l8.setBounds(10, 270, 120, 20);
 		JLabel l9 = new JLabel("Estado");
@@ -160,20 +225,15 @@ public class GUI_Atendimento {
 		l13.setBounds(10, 420, 120, 20);
 		JLabel l14 = new JLabel("Nº");
 		l14.setBounds(10, 420, 120, 20);
-		
+
 		JTextField pais = new JTextField();
 		pais.setBounds(130, 270, 150, 25);
-		JTextField estado = new JTextField();
 		estado.setBounds(130, 300, 150, 25);
-		JTextField cidade = new JTextField();
 		cidade.setBounds(130, 330, 150, 25);
-		JTextField bairro = new JTextField();
 		bairro.setBounds(130, 360, 150, 25);
-		JTextField rua = new JTextField();
 		rua.setBounds(130, 390, 150, 25);
-		JTextField numeroCasa = new JTextField();
 		numeroCasa.setBounds(130, 420, 150, 25);
-		
+
 		painel.add(l8);
 		painel.add(l9);
 		painel.add(l10);
@@ -186,16 +246,9 @@ public class GUI_Atendimento {
 		painel.add(bairro);
 		painel.add(rua);
 		painel.add(numeroCasa);
+
 		
-		Endereco end = new Endereco();
-		end.setPais(pais.getText());
-		end.setEstado(estado.getText());
-		end.setCidade(cidade.getText());
-		end.setBairro(bairro.getText());
-		end.setRua(rua.getText());
-		//int num = Integer.parseInt(numeroCasa.getText());
-		//end.setNumeroCasa(num);
+
 		
-		return end;
 	}
 }

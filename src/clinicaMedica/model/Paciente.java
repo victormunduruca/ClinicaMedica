@@ -1,6 +1,7 @@
 package clinicaMedica.model;
 
-public class Paciente {
+
+public class Paciente{
 	
 	private String nome;
 	private String cpf;
@@ -96,5 +97,10 @@ public class Paciente {
 	public void setSexo(char sexo) {
 		this.sexo = sexo;
 	}
+
+	public String toString() {
+		return "Nome: " +this.nome+ "\n" + "Data: " +this.dataNascimento+ "\n" + "CPF: " +this.cpf+ "\n" + "Telefone: " +this.telefone+ "\n" + "RG: " +this.rg + "\n" + "Profissao: " +this.profissao+ "\n" + "CEP: " +this.cep+"\n";
+	}
+	
 	
 }

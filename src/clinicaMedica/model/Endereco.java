@@ -1,6 +1,9 @@
 package clinicaMedica.model;
 
-public class Endereco {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Endereco implements Comparable<Object>, Serializable{
 	
 	private String rua;
 	private String cidade;
@@ -60,6 +63,15 @@ public class Endereco {
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
+
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
+	public String toString() {
+		return "Rua: " +this.rua+ "\n" + "Cidade: " +this.cidade + "\n" + "Pais: " +this.pais + "\n" + "Estado: " +this.estado +  "\n"+ "Bairro: " +this.bairro + "\n" +"Numero Casa: " +this.numeroCasa + "\n";
+	}
 
 }

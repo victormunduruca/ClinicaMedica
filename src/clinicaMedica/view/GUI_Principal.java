@@ -1,6 +1,8 @@
 package clinicaMedica.view;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -13,7 +15,7 @@ import javax.swing.JPanel;
 
 public class GUI_Principal {
 
-	private JButton botaoAtendimento;
+	private JButton botaoPaciente;
 	private JButton botaoAtualizar;
 	private JButton botaoPesquisar;
 	private JButton botaoExcluir;
@@ -27,14 +29,15 @@ public class GUI_Principal {
 	}
 
 	public void interfaceGrafica(){
-		botaoAtendimento = new JButton("Atendimento");
-		botaoAtualizar = new JButton("Paciente");
+		botaoPaciente = new JButton("Paciente");
+		botaoAtualizar = new JButton("Atualizar");
 		botaoPesquisar = new JButton("Pesquisar");
 		botaoExcluir = new JButton("Excluir");
 		botaoSair = new JButton("Sair");
 		
+
 		/*Dimensiono os botões e posição*/
-		botaoAtendimento.setBounds(10, 110, 120, 30);
+		botaoPaciente.setBounds(10, 110, 120, 30);
 		botaoAtualizar.setBounds(10, 150, 120, 30);
 		botaoPesquisar.setBounds(10, 190, 120, 30);
 		botaoExcluir.setBounds(10, 230, 120, 30);
@@ -47,7 +50,7 @@ public class GUI_Principal {
 		cadastro.add(sair);
 		menu = new JMenuBar();
 		menu.add(cadastro);
-		
+
 		ImageIcon icon = new ImageIcon("imagem/clinica.png");
 		JLabel label = new JLabel();
 		label.setIcon(icon);
@@ -59,7 +62,7 @@ public class GUI_Principal {
 		painel.add(label);
 		painel.setLayout(null);
 		painel.setBackground(Color.white);
-		painel.add(botaoAtendimento);
+		painel.add(botaoPaciente);
 		painel.add(botaoAtualizar);
 		painel.add(botaoExcluir);
 		painel.add(botaoPesquisar);
@@ -74,13 +77,19 @@ public class GUI_Principal {
 		janela.add(painel);
 		janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		janela.setVisible(true);//Torno visivel a tela
-		
-		ManusearBotoesPrincipais manusearBotao = new ManusearBotoesPrincipais(botaoAtendimento);
-		botaoAtendimento.addActionListener(manusearBotao);
-		
-		ManusearMenu manusearMenu = new ManusearMenu(sair, atendimento, janela);
-		atendimento.addActionListener(manusearMenu);
-		sair.addActionListener(manusearMenu);
-		
+
+		//ManusearBotoesPrincipais manusearBotao = new ManusearBotoesPrincipais(botaoAtendimento);
+		botaoPaciente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					GUI_Atendimento cadastro = new GUI_Atendimento();
+					cadastro.paciente();
+			}
+		});
 	}
+
+
+
+	//sair.addActionListener(manusearMenu);
+
 }
+

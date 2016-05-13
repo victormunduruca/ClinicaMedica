@@ -6,8 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 
-import clinicaMedica.controller.Controller;
-import clinicaMedica.model.Atendimento;
+
 
 public class ManusearMenu implements ActionListener {
 	
